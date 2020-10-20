@@ -117,17 +117,12 @@ class CredentialRepository implements PublicKeyCredentialSourceRepository
      */
     private function model(string $credentialId): ?WebauthnKey
     {
-        if (! $this->guard->guest()) {
-            /** @var WebauthnKey */
-            $webauthnKey = WebauthnKey::where([
-                'user_id' => $this->guard->id(),
-                'credentialId' => base64_encode($credentialId),
-            ])->firstOrFail();
+        /** @var WebauthnKey */
+        $webauthnKey = WebauthnKey::where([
+            'credentialId' => base64_encode($credentialId),
+        ])->firstOrFail();
 
-            return $webauthnKey;
-        }
-
-        return null;
+        return $webauthnKey;
     }
 
     // deprecated CredentialRepository interface :
